@@ -1,8 +1,5 @@
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.awt.Graphics;
-
-import javax.imageio.ImageIO;
 
 public class ImageLoader {
 

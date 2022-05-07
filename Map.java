@@ -1,19 +1,5 @@
-/**
- *
- * Beschreibung
- *
- * @version 1.0 vom 19.11.2021
- * @author 
- */
 import java.awt.Graphics;
-import java.awt.image.BufferStrategy;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.util.Random;
-import java.awt.image.BufferedImage;
 
 public class Map extends RenderAbstract {
   private final int MAP_WIDTH = 21;
@@ -25,89 +11,121 @@ public class Map extends RenderAbstract {
   private int wallWidth = 10;
   
   private Room[][] rooms = new Room[MAP_WIDTH][MAP_HEIGHT];
-  
+  private Monster[] monsters = new Monster[5];
   private Assets assets = new Assets();
-  private Game game;
+
+  private int[][] startCoordinates = {{8, 8}, {3, 10}, {4, 16}};
   
   private int waterCount = 0;
+
+  private int currentLevel = 1;
   
   
   
-  public Map(Game game) {
-    this.game = game;
+  public Map() {
+    
   }
   
   
   
   public void createRooms() {
-    //    x  y             north, east,  south, west,  hasItm,img,            wall
-     //tl -> top left - oben links
-    for (int x = 0; x <= 8; x++) {
-      for (int y = 0; y <= 6; y++) {
-        rooms[x][y] = new Room("water", false, this);
-      }
+    for (int i = 0; i < 3; i++) {
+      monsters[i] = null;
     }
-    
-    for (int x = 9; x <= 11 ; x++) {
-      for (int y = 0; y <= 6; y++) {
-        rooms[x][y] = new Room("dirt", true, this);
-      }
-    }
-    
-    for (int x = 12; x <= 20; x++) {
-      for (int y = 0; y <= 6; y++) {
-        rooms[x][y] = new Room("grass", true, this);
-      }
-    }
-    
-    for (int x = 0; x <= 4; x++) {
-      for (int y = 7; y <= 13; y++) {
-        rooms[x][y] = new Room("grass", true, this);
-      }
-    }
-    
-    
-    for (int x = 15; x <= 20; x++) {
-      for (int y = 7; y <= 13; y++) {
-        rooms[x][y] = new Room("grass", true, this);
-      }
-    }
-    
-    for (int x = 0; x <= 20; x++) {
-      for (int y = 14; y <= 20; y++) {
-        rooms[x][y] = new Room("grass", true, this);
-      }
-    }
-    
-    for (int x = 5; x <= 14; x++) {
-      for (int y = 7; y <= 13; y++) {
-        if (x == 5) {
-          rooms[x][y] = new Room("bookshelf_left", false, this);
-        } else if (x == 14) {
-          rooms[x][y] = new Room("bookshelf_right", false, this);
-        } else {
-          rooms[x][y] = new Room("wooden_floor", true, this);
-        } 
-      }    
-    }
-    
-    for (int x = 5; x <= 14; x++) {
-      for (int y = 7; y <= 13; y++) {
-        try {
-          if (x == 5) addWall("e", 14, y);
-          if (x == 14) addWall("w", 5, y);
-          if (y == 7) addWall("n", x, 7);
-          if (y == 13) addWall("s", x, 13);
-        } catch(Exception e) {
-          System.out.println("Das funzt net");
+
+    if (currentLevel == 1) {
+      for (int x = 0; x <= 8; x++) {
+        for (int y = 0; y <= 6; y++) {
+          rooms[x][y] = new Room("water", false, this);
         }
-      }    
+      }
+      
+      for (int x = 9; x <= 11 ; x++) {
+        for (int y = 0; y <= 6; y++) {
+          rooms[x][y] = new Room("dirt", false, this);
+        }
+      }
+      
+      for (int x = 12; x <= 20; x++) {
+        for (int y = 0; y <= 6; y++) {
+          rooms[x][y] = new Room("grass", false, this);
+        }
+      }
+      
+      for (int x = 0; x <= 4; x++) {
+        for (int y = 7; y <= 13; y++) {
+          rooms[x][y] = new Room("grass", false, this);
+        }
+      }
+      
+      
+      for (int x = 15; x <= 20; x++) {
+        for (int y = 7; y <= 13; y++) {
+          rooms[x][y] = new Room("grass", false, this);
+        }
+      }
+      
+      for (int x = 0; x <= 20; x++) {
+        for (int y = 14; y <= 20; y++) {
+          rooms[x][y] = new Room("grass", false, this);
+        }
+      }
+      
+      for (int x = 5; x <= 14; x++) {
+        for (int y = 7; y <= 13; y++) {
+          if (x == 5) {
+            rooms[x][y] = new Room("bookshelf_left", false, this);
+          } else if (x == 14) {
+            rooms[x][y] = new Room("bookshelf_right", false, this);
+          } else {
+            rooms[x][y] = new Room("wooden_floor", true, this);
+          }
+        }    
+      } 
+      
+      for (int x = 5; x <= 14; x++) {
+        for (int y = 7; y <= 13; y++) {
+          if (x != 11) {
+            try {
+              if (x == 5) addWall("e", 14, y);
+              if (x == 14) addWall("w", 5, y);
+              if (y == 7) addWall("n", x, 7);
+              if (y == 13) addWall("s", x, 13);
+            } catch(Exception e) {
+              System.out.println("Das funzt net");
+            }
+          } 
+          
+        }    
+      }
+
+      addWall("door_top", 11, 7);
+      addWall("s", 11, 13);
+      
+      rooms[7][7].addItem(new Item("A3", "note_a3", false));
+      addOverlay("chest", false, 7, 7);
+      rooms[7][10].addItem(new Item("B7", "note_b7", false));
+      addOverlay("carpet", true, 7, 10);
+      rooms[5][13].addItem(new Item("C5", "note_c5", false));
+      rooms[12][10].addItem(new Item("D4", "note_d4", false));
+      addOverlay("carpet", true, 12, 10);
+      addOverlay("key", true, 11, 13);
+      
+      monsters[0] = new Monster(300, 360, 100, 12, "goblin", assets);
+    } else if (currentLevel == 2) {
+      for (int x = 0; x < MAP_WIDTH; x++) {
+        for (int y = 0; y < MAP_HEIGHT; y++) {
+          rooms[x][y] = new Room("stone_floor", true, this);
+        }
+      }
     }
-    
-    rooms[0][0].setRoomWall("tl");
-    rooms[0][MAP_HEIGHT - 1].setRoomWall("bl");
-    rooms[MAP_WIDTH - 1][0].setRoomWall("tr");
-    rooms[MAP_WIDTH - 1][MAP_HEIGHT - 1].setRoomWall("br");
+  }
+
+
+
+  public void nextLevel() {
+    currentLevel++;
+    createRooms();
   }
   
   
@@ -141,12 +159,69 @@ public class Map extends RenderAbstract {
       case "w": 
         getRoom(x, y).setIsWallowed(false);
         
-        if (y > 0) {
+        if (x > 0) {
           getRoom((x - 1), y).setIsEallowed(false);
           getRoom((x - 1), y).setWallTextureName("wall_right");
         } // end of if
         break;
+
+
+
+      case "door_top": 
+        getRoom(x, y).setIsWallowed(false);
+        
+        if (y > 0) {
+          getRoom(x, (y - 1)).setIsSallowed(false);
+          getRoom(x, (y - 1)).setWallTextureName("door_bottom");
+        } // end of if
+        break;
+      case "door_right": 
+        getRoom(x, y).setIsWallowed(false);
+        
+        if (x < (getMAP_WIDTH() - 1)) {
+          getRoom((x + 1), y).setIsWallowed(false);
+          getRoom((x + 1), y).setWallTextureName("door_left");
+        } // end of if
+        break;
+      case "door_bottom": 
+        getRoom(x, y).setIsWallowed(false);
+        
+        if (y < (getMAP_HEIGHT() - 1)) {
+          getRoom(x, (y + 1)).setIsNallowed(false);
+          getRoom(x, (y + 1)).setWallTextureName("door_top");
+        } // end of if
+        break;
+      case "door_left": 
+        getRoom(x, y).setIsWallowed(false);
+        
+        if (x> 0) {
+          getRoom((x - 1), y).setIsEallowed(false);
+          getRoom((x - 1), y).setWallTextureName("door_right");
+        } // end of if
+        break;
     } // end of switch
+  }
+ 
+  public void addOverlay(String overlayName, boolean isReachable, int x, int y) {
+    getRoom(x, y).setIsRoomReachable(isReachable);
+    getRoom(x, y).setRoomOverlayImage(overlayName);
+  }
+
+
+
+  public int getStartX() {
+    return startCoordinates[currentLevel - 1][0];
+  }
+
+  public int getStartY() {
+    return startCoordinates[currentLevel - 1][1];
+  }
+
+
+
+  public void levelCompleted() {
+    currentLevel++;
+    createRooms();
   }
   
   
@@ -188,7 +263,7 @@ public class Map extends RenderAbstract {
   }
   
   public int getReachableXMax() {
-    return (xAdd + (TILE_WIDTH_AND_HEIGHT * MAP_WIDTH));
+    return MAP_WIDTH * TILE_WIDTH_AND_HEIGHT;
   }
   
   public int getReachableYMin() {
@@ -196,7 +271,7 @@ public class Map extends RenderAbstract {
   }
   
   public int getReachableYMax() {
-    return (yAdd + (TILE_WIDTH_AND_HEIGHT * MAP_HEIGHT));
+    return MAP_HEIGHT * TILE_WIDTH_AND_HEIGHT;
   }
   
   public int getWallWidth() {
@@ -235,7 +310,9 @@ public class Map extends RenderAbstract {
   
   @Override
   public void tick() {
-    
+    for (int i = 0; i < 5; i++) {
+      if (monsters[i] != null) monsters[i].tick();
+    }
   }
   
   @Override
@@ -263,10 +340,22 @@ public class Map extends RenderAbstract {
           if (rooms[x][y].getWallTextureName() != null) {
             g.drawImage(assets.getTexture(rooms[x][y].getWallTextureName()), (x * TILE_WIDTH_AND_HEIGHT), (y * TILE_WIDTH_AND_HEIGHT), TILE_WIDTH_AND_HEIGHT, TILE_WIDTH_AND_HEIGHT, null);
           }
+
+          if (rooms[x][y].getRoomOverlayImage() != null) {
+            g.drawImage(assets.getTexture(rooms[x][y].getRoomOverlayImage()), (x * TILE_WIDTH_AND_HEIGHT), (y * TILE_WIDTH_AND_HEIGHT), TILE_WIDTH_AND_HEIGHT, TILE_WIDTH_AND_HEIGHT, null);
+          }
+
+          if ((rooms[x][y].getItem() != null) && (rooms[x][y].getItem().isVisible())) {
+            g.drawImage(assets.getTexture(rooms[x][y].getItem().getTextureName()), (x * TILE_WIDTH_AND_HEIGHT), (y * TILE_WIDTH_AND_HEIGHT), TILE_WIDTH_AND_HEIGHT, TILE_WIDTH_AND_HEIGHT, null);
+          }
         }
       } // end of for
     } // end of for
     
+    for (int i = 0; i < 5; i++) {
+      if (monsters[i] != null) monsters[i].render(g);
+    }
+
     waterCount++;
   }
   
@@ -287,10 +376,6 @@ public class Map extends RenderAbstract {
     rooms[x][y].deleteItem();
     
     return item;
-  }
-  
-  public String getMonstersTextsInCurrentRoomNo(int x, int y, int wantedText) {
-    return rooms[x][y].getMonsterTextInCurrentRoomNo(wantedText);
   }
   
   public int getMonsterCountFromCurrentRoom(int x, int y) {

@@ -1,7 +1,5 @@
 import java.awt.Canvas;
 import java.awt.Dimension;
-import java.awt.Insets;
-import java.awt.Container;
 import javax.swing.JFrame;
 
 public class Display {

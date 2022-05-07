@@ -1,32 +1,21 @@
-/**
-  *
-  * Beschreibung
-  *
-  * @version 1.0 vom 05.11.2021
-  * @author 
-  */
-
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.KeyListener;
-import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
 
 
 public class Room {
-  private boolean isNorthAllowed;
-  private boolean isEastAllowed;
-  private boolean isSouthAllowed;
-  private boolean isWestAllowed;
+  private boolean isNorthAllowed = true;
+  private boolean isEastAllowed = true;
+  private boolean isSouthAllowed = true;
+  private boolean isWestAllowed = true;
+
   private String roomImageName;
+
   private String roomWall;
   private String wallTextureName;
+
+  private String roomOverlayImage;
+
   private boolean isReachable = true;
   
   private Item item;
@@ -61,6 +50,7 @@ public class Room {
   
   public void deleteItem() {
     item = null;
+    System.out.print("Löscht Item");
   }
   
   
@@ -101,11 +91,60 @@ public class Room {
     return isReachable;
   }
 
+  public void setIsRoomReachable(boolean isRoomReachable) {
+    isReachable = isRoomReachable;
+  }
+
   public String getRoomImageName() {
     return roomImageName;
   }
+
+  public String getRoomOverlayImage() {
+    return roomOverlayImage;
+  }
+
+  public void setRoomOverlayImage(String roomOverlay) {
+    roomOverlayImage = roomOverlay;
+  }
   
   
+
+  public void interactWithDoor() {
+    if (wallTextureName.equals("door_open_top")) {
+      wallTextureName = "door_close_top";
+      setIsNallowed(true);
+    }
+
+    if (wallTextureName.equals("door_open_right")) {
+      wallTextureName = "door_close_right";
+    }
+
+    if (wallTextureName.equals("door_open_bottom")) {
+      wallTextureName = "door_close_bottom";
+    }
+
+    if (wallTextureName.equals("door_open_left")) {
+      wallTextureName = "door_close_left";
+    }
+
+
+
+    if (wallTextureName.equals("door_close_top")) {
+      wallTextureName = "door_open_top";
+    }
+
+    if (wallTextureName.equals("door_close_right")) {
+      wallTextureName = "door_open_right";
+    }
+
+    if (wallTextureName.equals("door_close_bottom")) {
+      wallTextureName = "door_open_bottom";
+    }
+
+    if (wallTextureName.equals("door_close_left")) {
+      wallTextureName = "door_open_left";
+    }
+  }
   
   public void setRoomWall(String wall) {
     roomWall = wall;
@@ -148,14 +187,6 @@ public class Room {
 
   public Monster getMonsterInCurrentRoomNo(int wantedMonster) {
     return monstersInRoom[wantedMonster];
-  }
-  
-  public String getMonsterTextInCurrentRoomNo(int wantedMonster) {
-    if (monstersInRoom[wantedMonster] != null) {
-      return monstersInRoom[wantedMonster].getMonsterText();
-    }
-    
-    return "";
   }
   
   public Monster[] getAllMonstersInRoom() {
