@@ -8,7 +8,6 @@
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
-import java.awt.image.BufferedImage;
 
 public class Game implements Runnable {
 
@@ -22,8 +21,6 @@ public class Game implements Runnable {
   
   private boolean running = false;
   private Thread thread;
-  
-  private boolean mapIsRendered = false;
   
   private BufferStrategy bs;
   private Graphics g;
@@ -56,12 +53,13 @@ public class Game implements Runnable {
     } catch(IOException e) {
       e.printStackTrace(); 
     }
-    map = new Map(this.game);
-    map.createRooms();
-    
-    player = new Player(this.game, this.map, 30, 300);
     
     inventory = new Inventory();
+
+    map = new Map();
+    map.createRooms();
+    
+    player = new Player(this.game, this.map, this.inventory, map.getStartX() * map.getTILE_WIDTH_AND_HEIGHT(), map.getStartY() * map.getTILE_WIDTH_AND_HEIGHT());
   }
   
   private void tick(){

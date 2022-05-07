@@ -1,23 +1,29 @@
-/**
- *
- * Beschreibung
- *
- * @version 1.0 vom 14.02.2022
- * @author 
- */
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
-public class Monster  {
+public class Monster extends Character {
+  private int health, damage, xPos, yPos;
+  private String textureName;
+  private Assets assets;
   
-  private String text;
-  
-  public Monster(int eine_r, String txt, int health, int maxHealth, int armor, int damage, int dex) {
-    //super(health, maxHealth, armor, damage, dex);
-    
-    this.text = txt;
+  public Monster(int x, int y, int health, int damage, String textureName, Assets assets) {
+    this.xPos = x;
+    this.yPos = y;
+    this.health = health;
+    this.damage = damage;
+    this.textureName = textureName;
+    this.assets = assets;
   }
   
-  public String getMonsterText() {
-    return text;
+
+
+  @Override
+  public void tick() {
+
   }
 
+  @Override
+  public void render(Graphics g) {
+    g.drawImage(assets.getTexture(textureName), xPos, yPos, 26, 30, null);
+  }
 } // end of class Monster

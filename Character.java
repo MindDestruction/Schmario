@@ -15,13 +15,8 @@ public abstract class Character {
   private int damage; 
   private int dex;
   
-  private Game game;
-  private int curXPos, curYPos;
-  
-  public Character(Game game, int x, int y) {
-    this.game = game;
-    this.curXPos = x;
-    this.curYPos = y;
+  public Character() {
+    
   }
   
   public int getHealth() {

@@ -1,24 +1,12 @@
-/**
-  *
-  * Beschreibung
-  *
-  * @version 1.0 vom 13.12.2021
-  * @author 
-  */
 import java.awt.Graphics;
-import java.awt.image.BufferStrategy;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.io.File;
-import java.util.Random;
-import java.awt.image.BufferedImage;
 
 public class Inventory extends RenderAbstract {
-  private final int MAX_ITEMS_IN_INVENTORY = 18;
+  private final int MAX_ITEMS_IN_INVENTORY = 6;
+
   private int itemCount = 0;
+
   private Item[] itemArray = new Item[MAX_ITEMS_IN_INVENTORY];
+  private Assets assets = new Assets();
   
   
   
@@ -29,6 +17,18 @@ public class Inventory extends RenderAbstract {
   public void addItem(Item itm) {
     itemArray[itemCount] = itm;
     itemCount++;
+  }
+
+  public boolean searchItem(String wantedItem) {
+    boolean hasWantedItem = false;
+
+    for (int i = 0; i < itemCount; i++) {
+      if (wantedItem.equals(itemArray[i].getText())) {
+        hasWantedItem = true;
+      }
+    }
+
+    return hasWantedItem;
   }
   
   public Item getItem(int itemNumber) {
@@ -70,17 +70,14 @@ public class Inventory extends RenderAbstract {
   
   @Override
   public void render(Graphics g) {
-    g.setColor(Color.black);
-    //g.fillRect(635, 0, 360, 415);
-    
-    g.setColor(Color.lightGray);
-    
-    g.setColor(Color.lightGray);
-    /*for (int x = 640; x <= 885; x += 120) {
-      for (int y = 50; y <= 170; y += 120) {
-        g.fillRoundRect(x, y, 110, 110, 45, 45);
-      } // end of for
-      
-    } // end of for*/
+    for (int i = 0; i < itemCount; i++) {
+      if (itemArray[i] != null) {
+        if (i < 3) {
+          g.drawImage(assets.getTexture(itemArray[i].getTextureName()), (640 + (i * 86)), 100, 75, 75, null);
+        } else {
+          g.drawImage(assets.getTexture(itemArray[i].getTextureName()), (640 + ((i - 3) * 86)), 200, 75, 75, null);
+        }
+      }
+    }
   }
 }
