@@ -16,7 +16,7 @@ public class Game implements Runnable {
   public String title;
   private Game game;
   private Map map;
-  private Player player;
+  private static Player player;
   private Inventory inventory;
   
   private boolean running = false;
@@ -24,7 +24,11 @@ public class Game implements Runnable {
   
   private BufferStrategy bs;
   private Graphics g;
-  
+
+  private final static String CONST_SERVERIP = "127.0.0.1"; //127.0.0.1 10.16.59.1
+  private final static int CONST_SERVERPORT = 4000;
+  private static MainClient con = new MainClient(CONST_SERVERIP, CONST_SERVERPORT);
+
   //Input
   private KeyManager keyManager;
   
@@ -114,7 +118,7 @@ public class Game implements Runnable {
       }
       
       if(timer >= 1000000000){
-        System.out.println("Ticks and Frames: " + ticks);
+        //System.out.println("Ticks and Frames: " + ticks);
         ticks = 0;
         timer = 0;
       }
@@ -129,6 +133,11 @@ public class Game implements Runnable {
   }
   
   public synchronized void start(){
+    if(con.isConnected()) {
+      con.send("player_reg");
+    }else{
+      System.out.println("Reg Error");
+    }
     if(running)
       return;
     running = true;
@@ -147,4 +156,13 @@ public class Game implements Runnable {
     }
   }
   
+  public static void connection_player2Move(int x, int y) {
+    System.out.println("test "+x+" "+y);
+    player.player2Move(x, y);
+  }
+
+  public static void sendPlayerMovement() {
+    con.send("pos: "+player.getCurrentXPos()+", "+player.getCurrentXPos()+";");
+  }
+
 }
