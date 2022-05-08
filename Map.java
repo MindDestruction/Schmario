@@ -95,7 +95,7 @@ public class Map extends RenderAbstract {
               if (y == 7) addWall("n", x, 7);
               if (y == 13) addWall("s", x, 13);
             } catch(Exception e) {
-              System.out.println("Das funzt net");
+              System.out.println("ERROR");
             }
           } 
           
@@ -360,6 +360,9 @@ public class Map extends RenderAbstract {
     }
 
     waterCount++;
+
+    g.drawImage(assets.getTexture("inventory"), 635, 0, 400, 630, null);
+
   }
   
   
