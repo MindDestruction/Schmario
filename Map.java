@@ -29,9 +29,11 @@ public class Map extends RenderAbstract {
   
   
   public void createRooms() {
+
     for (int i = 0; i < 3; i++) {
       monsters[i] = null;
     }
+
 
     if (currentLevel == 1) {
       for (int x = 0; x <= 8; x++) {
@@ -68,6 +70,7 @@ public class Map extends RenderAbstract {
       for (int x = 0; x <= 20; x++) {
         for (int y = 14; y <= 20; y++) {
           rooms[x][y] = new Room("grass", false, this);
+
         }
       }
       
