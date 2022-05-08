@@ -73,12 +73,16 @@ public class Player extends Character {
   public void player2Move(int x, int y) {
     if (x < curXPosP2) {
       lastDirectionP2 = "west";
+      curXPosP2 = x;
     } else if (x > curXPosP2) {
       lastDirectionP2 = "east";
+      curXPosP2 = x;
     } else if (y < curYPosP2) {
       lastDirectionP2 = "north";
+      curYPosP2 = y;
     } else if (y > curYPosP2) {
       lastDirectionP2 = "south";
+      curYPosP2 = y;
     }
   }
   
@@ -102,6 +106,7 @@ public class Player extends Character {
     
       if ((game.getMap().getReachableYMin() <= (curYPos - 3)) && (map.getRoom(currentRoomX, currentRoomYAfterUp).isRoomReachable() == true) && (map.getRoom(currentRoomX, currentRoomY).isNallowed())) {
         curYPos -= 3;
+        Game.sendPlayerMovement();
         isPlayerMoving = true;
       } else if (game.getKeyManager().up && (game.getMap().getReachableYMin() > (curYPos - 3))) {
         curYPos = game.getMap().getReachableYMin();
@@ -114,6 +119,7 @@ public class Player extends Character {
      
       if ((game.getMap().getReachableYMax() >= ((curYPos + 3) + playerHeight)) && (map.getRoom(currentRoomX, currentRoomYAfterDown).isRoomReachable() == true) && (map.getRoom(currentRoomX, currentRoomY).isSallowed())) {
         curYPos += 3;
+        Game.sendPlayerMovement();
         isPlayerMoving = true;
       } else if (game.getMap().getReachableYMax() < (curYPos + 3)) {
         curYPos = game.getMap().getReachableYMax() - playerHeight;
@@ -126,6 +132,7 @@ public class Player extends Character {
     
       if ((game.getMap().getReachableXMin() <= (curXPos - 3)) && (map.getRoom(currentRoomXAfterLeft, currentRoomY).isRoomReachable() == true) && (map.getRoom(currentRoomX, currentRoomY).isWallowed())) {
         curXPos -= 3;
+        Game.sendPlayerMovement();
         isPlayerMoving = true;
       } else if (game.getMap().getReachableXMin() > (curXPos - 3)) {
         curXPos = game.getMap().getReachableXMin();
@@ -138,6 +145,7 @@ public class Player extends Character {
     
       if ((game.getMap().getReachableXMax() >= ((curXPos + 3) + playerWidth)) && (map.getRoom(currentRoomXAfterRight, currentRoomY).isRoomReachable() == true) && (map.getRoom(currentRoomX, currentRoomY).isEallowed())) {
         curXPos += 3;
+        Game.sendPlayerMovement();
         isPlayerMoving = true;
       } else if (game.getMap().getReachableXMax() < (curXPos + 3)) {
         curXPos = game.getMap().getReachableXMax() - playerWidth;
