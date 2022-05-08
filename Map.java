@@ -29,6 +29,12 @@ public class Map extends RenderAbstract {
   
   
   public void createRooms() {
+
+    for (int i = 0; i < 3; i++) {
+      monsters[i] = null;
+    }
+
+
     if (currentLevel == 1) {
       for (int x = 0; x <= 8; x++) {
         for (int y = 0; y <= 6; y++) {
@@ -64,6 +70,7 @@ public class Map extends RenderAbstract {
       for (int x = 0; x <= 20; x++) {
         for (int y = 14; y <= 20; y++) {
           rooms[x][y] = new Room("grass", false, this);
+
         }
       }
       
@@ -108,7 +115,20 @@ public class Map extends RenderAbstract {
       addOverlay("key", true, 11, 13);
       
       monsters[0] = new Monster(300, 360, 100, 12, "goblin", assets);
+    } else if (currentLevel == 2) {
+      for (int x = 0; x < MAP_WIDTH; x++) {
+        for (int y = 0; y < MAP_HEIGHT; y++) {
+          rooms[x][y] = new Room("stone_floor", true, this);
+        }
+      }
     }
+  }
+
+
+
+  public void nextLevel() {
+    currentLevel++;
+    createRooms();
   }
   
   
@@ -359,10 +379,6 @@ public class Map extends RenderAbstract {
     rooms[x][y].deleteItem();
     
     return item;
-  }
-  
-  public String getMonstersTextsInCurrentRoomNo(int x, int y, int wantedText) {
-    return rooms[x][y].getMonsterTextInCurrentRoomNo(wantedText);
   }
   
   public int getMonsterCountFromCurrentRoom(int x, int y) {

@@ -73,17 +73,15 @@ public class Player extends Character {
   public void player2Move(int x, int y) {
     if (x < curXPosP2) {
       lastDirectionP2 = "west";
-      curXPosP2 = x;
     } else if (x > curXPosP2) {
       lastDirectionP2 = "east";
-      curXPosP2 = x;
     } else if (y < curYPosP2) {
       lastDirectionP2 = "north";
-      curYPosP2 = y;
     } else if (y > curYPosP2) {
       lastDirectionP2 = "south";
-      curYPosP2 = y;
     }
+    curXPosP2 = x;
+    curYPosP2 = y;
   }
   
   

@@ -189,14 +189,6 @@ public class Room {
     return monstersInRoom[wantedMonster];
   }
   
-  public String getMonsterTextInCurrentRoomNo(int wantedMonster) {
-    if (monstersInRoom[wantedMonster] != null) {
-      return monstersInRoom[wantedMonster].getMonsterText();
-    }
-    
-    return "";
-  }
-  
   public Monster[] getAllMonstersInRoom() {
     return monstersInRoom;
   }
