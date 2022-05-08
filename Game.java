@@ -157,7 +157,6 @@ public class Game implements Runnable {
   }
   
   public static void connection_player2Move(int x, int y) {
-    System.out.println("test "+x+" "+y);
     player.player2Move(x, y);
   }
 
