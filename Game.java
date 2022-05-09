@@ -161,7 +161,14 @@ public class Game implements Runnable {
   }
 
   public static void sendPlayerMovement() {
-    con.send("pos: "+player.getCurrentXPos()+", "+player.getCurrentXPos()+";");
+    con.send("pos: "+player.getCurrentXPos()+", "+player.getCurrentXPos());
   }
 
+  public static void sendPlayerInteraction(String action) {
+    con.send("act: "+ action);
+  }
+
+  public static void sendPlayerFight() {
+    con.send("att: "); // att steht für attack
+  }
 }
