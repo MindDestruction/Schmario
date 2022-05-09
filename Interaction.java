@@ -146,7 +146,6 @@ public class Interaction {
             if (map.getRoom(x, y).getRoomOverlayImage() != null) {
                 if (map.getRoom(x, y).getRoomOverlayImage().equals("chest") && inventory.searchItem("key")) {
                     map.getRoom(x, y).setRoomOverlayImage("opened_chest");
-                    map.levelCompleted();
                 } else if (map.getRoom(x, y).getRoomOverlayImage().equals("key")) {
                     if (InputClass.readInput("Safe Code:").equals("3754")) {
                         inventory.addItem(new Item("key", "key", false));

@@ -111,7 +111,7 @@ public class Map extends RenderAbstract {
       addOverlay("carpet", true, 12, 10);
       addOverlay("key", true, 11, 13);
       
-      monsters[0] = new Monster(300, 360, 100, 12, "goblin", assets);
+      monsters[0] = new Monster(300, 360, "north", 270, 100, 12, "goblin", assets, this);
     } else if (currentLevel == 2) {
       for (int x = 0; x < MAP_WIDTH; x++) {
         for (int y = 0; y < MAP_HEIGHT; y++) {
@@ -219,12 +219,11 @@ public class Map extends RenderAbstract {
 
 
 
-  public void levelCompleted() {
-    currentLevel++;
-    createRooms();
+  public int getMonsterCount() {
+    return monsters.length;
   }
-  
-  
+
+
   
   public boolean isGoNorthPossible(int x, int y) {
     if ((rooms[x][y].isNallowed() == true) && (y > 0)) {
