@@ -65,17 +65,19 @@ public class Inventory extends RenderAbstract {
   
   @Override
   public void tick() {
-    System.out.println(itemCount);
+
   }
   
   @Override
   public void render(Graphics g) {
     for (int i = 0; i < itemCount; i++) {
       if (itemArray[i] != null) {
-        if (i < 3) {
-          g.drawImage(assets.getTexture(itemArray[i].getTextureName()), (640 + (i * 86)), 100, 75, 75, null);
+        if (i < 2) {
+          g.drawImage(assets.getTexture(itemArray[i].getTextureName()), (640 + (i * 160)), 10, 150, 150, null);
+        } else if (i < 4) {
+          g.drawImage(assets.getTexture(itemArray[i].getTextureName()), (640 + ((i - 2) * 160)), 170, 150, 150, null);
         } else {
-          g.drawImage(assets.getTexture(itemArray[i].getTextureName()), (640 + ((i - 3) * 86)), 200, 75, 75, null);
+          g.drawImage(assets.getTexture(itemArray[i].getTextureName()), (640 + ((i - 4) * 160)), 330, 150, 150, null);
         }
       }
     }
