@@ -65,7 +65,7 @@ public class Inventory extends RenderAbstract {
   
   @Override
   public void tick() {
-    System.out.println(itemCount);
+    //System.out.println(itemCount);
   }
   
   @Override

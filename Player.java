@@ -72,19 +72,10 @@ public class Player extends Character {
       e.printStackTrace();
     } 
   }
-
-
-
-  public void nextLevel() {
-    curXPos = map.getStartX();
-    curYPos = map.getStartY();
-  }
   
   
   
   public void player2Move(int x, int y) {
-    map.getRoom((curXPosP2 + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPosP2 + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).setIsRoomReachable(true);
-
     if (x < curXPosP2) {
       lastDirectionP2 = "west";
     } else if (x > curXPosP2) {
@@ -94,78 +85,59 @@ public class Player extends Character {
     } else if (y > curYPosP2) {
       lastDirectionP2 = "south";
     }
-
     curXPosP2 = x;
-    curXPosP2 = y;
-
-    map.getRoom((curXPosP2 + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPosP2 + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).setIsRoomReachable(false);
+    curYPosP2 = y;
   }
   
   
   
   @Override
   public void tick() {
-    player2Move(curXPosP2, curYPosP2);
     isPlayerMoving = false;
-    map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).setIsRoomReachable(true);
     
     int currentRoomX = (int)(((curXPos + (playerWidth / 2)) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT());
     int currentRoomY = (int)(((curYPos + (playerHeight / 2)) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT());
-  
-    if (!isPlayerMoving && game.getKeyManager().up) {
-      lastDirection = "north";
     
-      if ((game.getMap().getReachableYMin() <= (curYPos - 3)) && (map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + playerHeight - map.getYAdd() - 3) / map.getTILE_WIDTH_AND_HEIGHT() - 1).isRoomReachable() == true)) {
-        if ((map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + playerHeight - map.getYAdd() - 3) / map.getTILE_WIDTH_AND_HEIGHT()).isNallowed() == true) && (map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + playerHeight - map.getYAdd() - 3) / map.getTILE_WIDTH_AND_HEIGHT() - 1).isSallowed() == true)) {
-          if (map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + playerHeight - map.getYAdd() - 3) / map.getTILE_WIDTH_AND_HEIGHT()).getWallTextureName() != null) {
-            if ((!map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + playerHeight - map.getYAdd() - 3) / map.getTILE_WIDTH_AND_HEIGHT()).getWallTextureName().equals("wall_bottom")) && (!map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + playerHeight - map.getYAdd() - 3) / map.getTILE_WIDTH_AND_HEIGHT()).getWallTextureName().equals("door_closed_bottom"))) {
-              curYPos -= 3;
-              isPlayerMoving = true;
-              Game.sendPlayerMovement();
-              map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).setIsRoomReachable(false);
-            }
-          } else {
-            curYPos -= 3;
-            isPlayerMoving = true;
-            Game.sendPlayerMovement();
-            map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).setIsRoomReachable(false);
-          }
-        } else {
-          //curYPos -= 3;
-          //isPlayerMoving = true;
-          //map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).setIsRoomReachable(false);
-        }
-      }
-    }
-     
-    if (!isPlayerMoving && game.getKeyManager().down) { 
-      lastDirection = "south";
+    int currentRoomXAfterLeft = (int)((((curXPos - 3) + (playerWidth / 2)) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT());
+    int currentRoomXAfterRight = (int)((((curXPos + 3) + (playerWidth / 2)) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT());
+    
+    int currentRoomYAfterUp = (int)((((curYPos - 3) + (playerHeight / 2)) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT());
+    int currentRoomYAfterDown = (int)((((curYPos + 3) + (playerHeight / 2)) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT());
+    if (!isInFight) {
+      if (!isPlayerMoving && game.getKeyManager().up) {
+        lastDirection = "north";
       
-      if ((game.getMap().getReachableYMin() <= (curYPos + 3)) && (map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + playerHeight - map.getYAdd() + 3) / map.getTILE_WIDTH_AND_HEIGHT()).isRoomReachable() == true)) {
-        if ((map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos - map.getYAdd() + 3) / map.getTILE_WIDTH_AND_HEIGHT()).isSallowed() == true) && (map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos - map.getYAdd() + 3) / map.getTILE_WIDTH_AND_HEIGHT() + 1).isNallowed() == true)) {
-          if (map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos - map.getYAdd() + 3) / map.getTILE_WIDTH_AND_HEIGHT()).getWallTextureName() != null) {
-            if ((!map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos - map.getYAdd() + 3) / map.getTILE_WIDTH_AND_HEIGHT()).getWallTextureName().equals("wall_bottom")) && (!map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos - map.getYAdd() + 3) / map.getTILE_WIDTH_AND_HEIGHT()).getWallTextureName().equals("door_closed_bottom"))) {
-              curYPos += 3;
-              isPlayerMoving = true;
-              Game.sendPlayerMovement();
-              map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).setIsRoomReachable(false);
-            }
-          } else {
-            curYPos += 3;
-            isPlayerMoving = true;
-            Game.sendPlayerMovement();
-            map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).setIsRoomReachable(false);
-          }
-        } else {
-          //curYPos += 3;
-          //sPlayerMoving = true;
-          //map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).setIsRoomReachable(false);
+        if ((game.getMap().getReachableYMin() <= (curYPos - 3)) && (map.getRoom(currentRoomX, currentRoomYAfterUp).isRoomReachable() == true) && (map.getRoom(currentRoomX, currentRoomY).isNallowed())) {
+          curYPos -= 3;
+          isPlayerMoving = true;
+        } else if (game.getKeyManager().up && (game.getMap().getReachableYMin() > (curYPos - 3))) {
+          curYPos = game.getMap().getReachableYMin();
+          isPlayerMoving = true;
+        } // end of if-else
+        Game.sendPlayerMovement();
+        fight(currentRoomX, currentRoomY);
+      }
+      
+      if (!isPlayerMoving && game.getKeyManager().down) { 
+        lastDirection = "south";
+      
+        if ((game.getMap().getReachableYMax() >= ((curYPos + 3) + playerHeight)) && (map.getRoom(currentRoomX, currentRoomYAfterDown).isRoomReachable() == true) && (map.getRoom(currentRoomX, currentRoomY).isSallowed())) {
+          curYPos += 3;
+          isPlayerMoving = true;
+        } else if (game.getMap().getReachableYMax() < (curYPos + 3)) {
+          curYPos = game.getMap().getReachableYMax() - playerHeight;
+          isPlayerMoving = true;
         }
+        Game.sendPlayerMovement();
+        fight(currentRoomX, currentRoomY);
       }
         
       if (!isPlayerMoving && game.getKeyManager().left) {
         lastDirection = "west";
-      
+
+      }
+    }
+
     if (!isPlayerMoving && game.getKeyManager().left) {
       lastDirection = "west";
     
@@ -189,32 +161,22 @@ public class Player extends Character {
           //isPlayerMoving = true;
           //map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).setIsRoomReachable(false);
         }
+        Game.sendPlayerMovement();
+        fight(currentRoomX, currentRoomY);
       }
-    }
-    
-    if (!isPlayerMoving && game.getKeyManager().right) {
-      lastDirection = "east";
-
-      if ((game.getMap().getReachableXMin() <= (curXPos + 3)) && (map.getRoom((curXPos + playerWidth - map.getXAdd() + 3) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).isRoomReachable() == true)) {
-        if ((map.getRoom((curXPos + playerWidth - map.getXAdd() + 3) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).isEallowed() == true) && (map.getRoom((curXPos + playerWidth - map.getXAdd() + 3) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT() + 1).isWallowed() == true)) {
-          if (map.getRoom((curXPos + playerWidth - map.getXAdd() + 3) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).getWallTextureName() != null) {
-            if ((!map.getRoom((curXPos + playerWidth - map.getXAdd() + 3) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).getWallTextureName().equals("wall_bottom")) && (!map.getRoom((curXPos + playerWidth - map.getXAdd() + 3) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).getWallTextureName().equals("door_closed_bottom"))) {
-              curXPos += 3;
-              isPlayerMoving = true;
-              Game.sendPlayerMovement();
-              map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).setIsRoomReachable(false);
-            }
-          } else {
-            curXPos += 3;
-            isPlayerMoving = true;
-            Game.sendPlayerMovement();
-            map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).setIsRoomReachable(false);
-          }
-        } else {
-          //curXPos += 3;
-          //isPlayerMoving = true;
-          //map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).setIsRoomReachable(false);
-        }
+      
+      if (!isPlayerMoving && game.getKeyManager().right) {
+        lastDirection = "east";
+      
+        if ((game.getMap().getReachableXMax() >= ((curXPos + 3) + playerWidth)) && (map.getRoom(currentRoomXAfterRight, currentRoomY).isRoomReachable() == true) && (map.getRoom(currentRoomX, currentRoomY).isEallowed())) {
+          curXPos += 3;
+          isPlayerMoving = true;
+        } else if (game.getMap().getReachableXMax() < (curXPos + 3)) {
+          curXPos = game.getMap().getReachableXMax() - playerWidth;
+          isPlayerMoving = true;
+        } // end of if-else
+        Game.sendPlayerMovement();
+        fight(currentRoomX, currentRoomY);
       }
     }
     
@@ -223,8 +185,6 @@ public class Player extends Character {
     if (!isPlayerMoving && game.getKeyManager().btne && !eLocked) {
       interaction.interact(lastDirection, currentRoomX, currentRoomY);
       isPlayerMoving = true;
-    } else {
-
     }
   }
   
@@ -287,8 +247,11 @@ public class Player extends Character {
   public void fight(int currentRoomX, int currentRoomY) {
 
     // temporary
-    Monster testMonster = new Monster(300, 360, 100, 12, "goblin", assets);
- 
+    //Monster testMonster = new Monster(300, 360, lastDirection, 100, 12, currentRoomY, "goblin", assets, map);
+    Monster testMonster = new Monster(300, 360, lastDirection, 100, 12, currentRoomY, "goblin", assets, map);
+    int monsterRoomX = (testMonster.getCurrentXPos() + (testMonster.getWidth() / 2)) / map.getTILE_WIDTH_AND_HEIGHT();
+    int monsterRoomY = (testMonster.getCurrentYPos() + (testMonster.getHeight() / 2)) / map.getTILE_WIDTH_AND_HEIGHT();
+    
     switch (lastDirection) {
       case "north": // if monster on tile next to player in direction north or one of the two next to it
         if (map.getRoom(currentRoomX, currentRoomY-1) != null || map.getRoom(currentRoomX-1, currentRoomY-1) != null || map.getRoom(currentRoomX+1, currentRoomY-1) != null) {
@@ -331,23 +294,32 @@ public class Player extends Character {
     } // end of switch (lastDirection)
   }
 
+  public void nextLevel() {
+    curXPos = map.getStartX();
+    curYPos = map.getStartY();
+  }
+
   public void monsterHit(Monster monster) {
-    System.out.println(monster.getDamage());
     healthPoints = healthPoints - monster.getDamage();
     if (healthPoints <= 0) {
-      System.out.println(" -- PLAYER DEAD -- ");
       isInFight = false;
     }
-    System.out.println(healthPoints);
   }
 
   public void playerHit(Monster monster) {
-    System.out.println("playerHit");
     monster.setHealth(monster.getHealth() - damage);
     if (monster.getHealth() <= 0) {
       System.out.println(" -- MONSTER DEAD -- ");
       isInFight = false;
     }
+  }
+
+  public void player2Die() {
+    
+  }
+
+  public void player2AttackAnimation() {
+    
   }
 
 } // end of class Player
