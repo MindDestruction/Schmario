@@ -64,9 +64,7 @@ public class Inventory extends RenderAbstract {
   }
   
   @Override
-  public void tick() {
-
-  }
+  public void tick() {}
   
   @Override
   public void render(Graphics g) {

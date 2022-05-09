@@ -112,7 +112,6 @@ public class Game implements Runnable {
       }
       
       if(timer >= 1000000000){
-        //System.out.println("Ticks and Frames: " + ticks);
         ticks = 0;
         timer = 0;
       }
@@ -149,13 +148,38 @@ public class Game implements Runnable {
       e.printStackTrace();
     }
   }
-  
-  public static void connection_player2Move(int x, int y) {
-    player.player2Move(x, y);
-  }
 
+  // --- send action ---
   public static void sendPlayerMovement() {
     con.send("pos: "+player.getCurrentXPos()+", "+player.getCurrentYPos()+";");
   }
 
+  public static void sendPlayerInteraction(String lastViewDirection) {
+    con.send("int,"+player.getCurrentXPos()+","+player.getCurrentYPos()+","+lastViewDirection);
+  }
+
+  public static void sendPlayerAttack() {
+    con.send("att,");
+  }
+
+  public static void sendPlayerDeath() {
+    con.send("die,");
+  }
+
+  // --- process action ---
+  public static void connection_player2Move(int x, int y) {
+    player.player2Move(x, y);
+  }
+
+  public static void connection_player2Interact(int interactXPos, int interactYPos, String interactViewDirection) {
+
+  }
+
+  public static void connection_player2Attack() {
+    player.player2AttackAnimation();
+  }
+
+  public static void connection_player2Die() {
+    player.player2AttackAnimation();
+  }
 }

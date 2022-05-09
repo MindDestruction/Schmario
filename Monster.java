@@ -28,6 +28,30 @@ public class Monster extends Character {
     if (direction.equals("east") || direction.equals("west")) startCoordinate = x;
   }
   
+  public int getHeight() {
+    return height;
+  }
+  
+  public int getWidth() {
+    return width;
+  }
+  
+  public String getDirection() {
+    return direction;
+  }
+
+  public int getFinalCoordinate() {
+    return finalCoordinate;
+  }
+
+  public int getCurrentYPos() {
+    return xPos;
+  }
+
+  public int getCurrentXPos() {
+    return yPos;
+  }
+
 
 
   @Override
@@ -111,4 +135,6 @@ public class Monster extends Character {
   public void render(Graphics g) {
     g.drawImage(assets.getTexture(textureName), xPos, yPos, width, height, null);
   }
+
+
 } // end of class Monster
