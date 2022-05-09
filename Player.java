@@ -131,13 +131,8 @@ public class Player extends Character {
         Game.sendPlayerMovement();
         fight(currentRoomX, currentRoomY);
       }
-        
-      if (!isPlayerMoving && game.getKeyManager().left) {
-        lastDirection = "west";
-
-      }
     }
-
+      
     if (!isPlayerMoving && game.getKeyManager().left) {
       lastDirection = "west";
     
@@ -245,13 +240,8 @@ public class Player extends Character {
   }
 
   public void fight(int currentRoomX, int currentRoomY) {
-
-    // temporary
-    //Monster testMonster = new Monster(300, 360, lastDirection, 100, 12, currentRoomY, "goblin", assets, map);
-    Monster testMonster = new Monster(300, 360, lastDirection, 100, 12, currentRoomY, "goblin", assets, map);
-    int monsterRoomX = (testMonster.getCurrentXPos() + (testMonster.getWidth() / 2)) / map.getTILE_WIDTH_AND_HEIGHT();
-    int monsterRoomY = (testMonster.getCurrentYPos() + (testMonster.getHeight() / 2)) / map.getTILE_WIDTH_AND_HEIGHT();
-    
+    Monster testMonster = new Monster(300, 360, "north", 270, 100, 12, "goblin", assets, map);
+ 
     switch (lastDirection) {
       case "north": // if monster on tile next to player in direction north or one of the two next to it
         if (map.getRoom(currentRoomX, currentRoomY-1) != null || map.getRoom(currentRoomX-1, currentRoomY-1) != null || map.getRoom(currentRoomX+1, currentRoomY-1) != null) {
