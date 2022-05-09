@@ -28,6 +28,22 @@ public class Interaction {
                     }
                 }
             }
+          
+            if (map.getRoom(x, y - 1).getWallTextureName() != null) {
+                if (map.getRoom(x, y - 1).getWallTextureName().equals("door_top") && inventory.searchItem("key")) {
+                    map.getRoom(x, y - 1).setWallTextureName("door_opened_top");
+                    map.nextLevel();
+                } else if (map.getRoom(x, y - 1).getWallTextureName().equals("door_bottom") && inventory.searchItem("key")) {
+                    map.getRoom(x, y - 1).setWallTextureName("door_opened_bottom");
+                    map.nextLevel();
+                } else if (map.getRoom(x, y - 1).getWallTextureName().equals("door_right") && inventory.searchItem("key")) {
+                    map.getRoom(x, y - 1).setWallTextureName("door_opened_right");
+                    map.nextLevel();
+                } else if (map.getRoom(x, y - 1).getWallTextureName().equals("door_right") && inventory.searchItem("key")) {
+                    map.getRoom(x, y - 1).setWallTextureName("door_opened__right");
+                    map.nextLevel();
+                }
+            }
         } else if ((viewDirection.equals("east")) && (x != (map.getMAP_WIDTH() - 1))) {
             if (map.getRoom(x + 1, y).getItem() != null) {
                 inventory.addItem(map.getRoom(x + 1, y).getItem());
@@ -41,6 +57,22 @@ public class Interaction {
                     if (InputClass.readInput("Safe Code:").equals("3754")) {
                         inventory.addItem(new Item("key", "key", false));
                     }
+                }
+            }
+
+            if (map.getRoom(x + 1, y).getWallTextureName() != null) {
+                if (map.getRoom(x + 1, y).getWallTextureName().equals("door_top") && inventory.searchItem("key")) {
+                    map.getRoom(x + 1, y).setWallTextureName("door_opened_top");
+                    map.nextLevel();
+                } else if (map.getRoom(x + 1, y).getWallTextureName().equals("door_bottom") && inventory.searchItem("key")) {
+                    map.getRoom(x + 1, y).setWallTextureName("door_opened_bottom");
+                    map.nextLevel();
+                } else if (map.getRoom(x + 1, y).getWallTextureName().equals("door_right") && inventory.searchItem("key")) {
+                    map.getRoom(x + 1, y).setWallTextureName("door_opened_right");
+                    map.nextLevel();
+                } else if (map.getRoom(x + 1, y).getWallTextureName().equals("door_right") && inventory.searchItem("key")) {
+                    map.getRoom(x + 1, y).setWallTextureName("door_opened__right");
+                    map.nextLevel();
                 }
             }
         } else if ((viewDirection.equals("south")) && (y != (map.getMAP_HEIGHT() - 1))) {
@@ -58,6 +90,22 @@ public class Interaction {
                     }
                 }
             }
+
+            if (map.getRoom(x, y + 1).getWallTextureName() != null) {
+                if (map.getRoom(x, y + 1).getWallTextureName().equals("door_top") && inventory.searchItem("key")) {
+                    map.getRoom(x, y + 1).setWallTextureName("door_opened_top");
+                    map.nextLevel();
+                } else if (map.getRoom(x, y + 1).getWallTextureName().equals("door_bottom") && inventory.searchItem("key")) {
+                    map.getRoom(x, y + 1).setWallTextureName("door_opened_bottom");
+                    map.nextLevel();
+                } else if (map.getRoom(x, y + 1).getWallTextureName().equals("door_right") && inventory.searchItem("key")) {
+                    map.getRoom(x, y + 1).setWallTextureName("door_opened_right");
+                    map.nextLevel();
+                } else if (map.getRoom(x, y + 1).getWallTextureName().equals("door_right") && inventory.searchItem("key")) {
+                    map.getRoom(x, y + 1).setWallTextureName("door_opened__right");
+                    map.nextLevel();
+                }
+            }
         } else if ((viewDirection.equals("west")) && (x != 0)) {
             if (map.getRoom(x - 1, y).getItem() != null) {
                 inventory.addItem(map.getRoom(x - 1, y).getItem());
@@ -71,6 +119,22 @@ public class Interaction {
                     if (InputClass.readInput("Safe Code:").equals("3754")) {
                         inventory.addItem(new Item("key", "key", false));
                     }
+                }
+            }
+
+            if (map.getRoom(x - 1, y).getWallTextureName() != null) {
+                if (map.getRoom(x - 1, y).getWallTextureName().equals("door_top") && inventory.searchItem("key")) {
+                    map.getRoom(x - 1, y).setWallTextureName("door_opened_top");
+                    map.nextLevel();
+                } else if (map.getRoom(x - 1, y).getWallTextureName().equals("door_bottom") && inventory.searchItem("key")) {
+                    map.getRoom(x - 1, y).setWallTextureName("door_opened_bottom");
+                    map.nextLevel();
+                } else if (map.getRoom(x - 1, y).getWallTextureName().equals("door_right") && inventory.searchItem("key")) {
+                    map.getRoom(x - 1, y).setWallTextureName("door_opened_right");
+                    map.nextLevel();
+                } else if (map.getRoom(x - 1, y).getWallTextureName().equals("door_right") && inventory.searchItem("key")) {
+                    map.getRoom(x - 1, y).setWallTextureName("door_opened__right");
+                    map.nextLevel();
                 }
             }
         } else {
