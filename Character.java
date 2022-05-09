@@ -1,10 +1,3 @@
-/**
- *
- * Beschreibung
- *
- * @version 1.0 vom 14.02.2022
- * @author 
- */
 import java.awt.Graphics;
 
 public abstract class Character {

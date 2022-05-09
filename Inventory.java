@@ -1,7 +1,7 @@
 import java.awt.Graphics;
 
 public class Inventory extends RenderAbstract {
-  private final int MAX_ITEMS_IN_INVENTORY = 6;
+  private final int MAX_ITEMS_IN_INVENTORY = 54;
 
   private int itemCount = 0;
 
@@ -65,7 +65,7 @@ public class Inventory extends RenderAbstract {
   
   @Override
   public void tick() {
-    
+    System.out.println(itemCount);
   }
   
   @Override

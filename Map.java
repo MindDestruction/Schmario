@@ -14,7 +14,7 @@ public class Map extends RenderAbstract {
   private Monster[] monsters = new Monster[5];
   private Assets assets = new Assets();
 
-  private int[][] startCoordinates = {{8, 8}, {3, 10}, {4, 16}};
+  private int[][] startCoordinates = {{240, 240}, {90, 300}, {120, 480}};
   
   private int waterCount = 0;
 
@@ -36,19 +36,33 @@ public class Map extends RenderAbstract {
 
 
     if (currentLevel == 1) {
-      for (int x = 0; x <= 8; x++) {
-        for (int y = 0; y <= 6; y++) {
+      for (int x = 0; x <= 7; x++) {
+        for (int y = 0; y <= 5; y++) {
           rooms[x][y] = new Room("water", false, this);
         }
       }
+
+      for (int x = 0; x <= 7; x++) {
+        rooms[x][6] = new Room("water_edge_bottom", false, this);
+      }
+
+      for (int y = 0; y <= 5; y++) {
+        rooms[8][y] = new Room("water_edge_right", false, this);
+      }
+
+      rooms[8][6] =  new Room("water_edge_bottom_right", false, this);
       
-      for (int x = 9; x <= 11 ; x++) {
+      for (int y = 0; y <= 6; y++) {
+        rooms[9][y] = new Room("grass", false, this);
+      }
+
+      for (int x = 10; x <= 12 ; x++) {
         for (int y = 0; y <= 6; y++) {
           rooms[x][y] = new Room("dirt", false, this);
         }
       }
       
-      for (int x = 12; x <= 20; x++) {
+      for (int x = 13; x <= 20; x++) {
         for (int y = 0; y <= 6; y++) {
           rooms[x][y] = new Room("grass", false, this);
         }
@@ -105,16 +119,16 @@ public class Map extends RenderAbstract {
       addWall("door_top", 11, 7);
       addWall("s", 11, 13);
       
-      rooms[7][7].addItem(new Item("A3", "note_a3", false));
+      rooms[7][7].addItem(new Item("a3", "note_a3", false));
       addOverlay("chest", false, 7, 7);
-      rooms[7][10].addItem(new Item("B7", "note_b7", false));
+      rooms[7][10].addItem(new Item("b7", "note_b7", false));
       addOverlay("carpet", true, 7, 10);
-      rooms[5][13].addItem(new Item("C5", "note_c5", false));
-      rooms[12][10].addItem(new Item("D4", "note_d4", false));
+      rooms[5][13].addItem(new Item("c5", "note_c5", false));
+      rooms[12][10].addItem(new Item("d4", "note_d4", false));
       addOverlay("carpet", true, 12, 10);
-      addOverlay("key", true, 11, 13);
+      addOverlay("safe", false, 11, 13);
       
-      monsters[0] = new Monster(300, 360, 100, 12, "goblin", assets);
+      monsters[0] = new Monster(300, 360, "north", 270, 100, 12, "goblin", assets, this);
     } else if (currentLevel == 2) {
       for (int x = 0; x < MAP_WIDTH; x++) {
         for (int y = 0; y < MAP_HEIGHT; y++) {
@@ -171,7 +185,7 @@ public class Map extends RenderAbstract {
 
 
       case "door_top": 
-        getRoom(x, y).setIsWallowed(false);
+        getRoom(x, y).setIsNallowed(false);
         
         if (y > 0) {
           getRoom(x, (y - 1)).setIsSallowed(false);
@@ -179,7 +193,7 @@ public class Map extends RenderAbstract {
         } // end of if
         break;
       case "door_right": 
-        getRoom(x, y).setIsWallowed(false);
+        getRoom(x, y).setIsEallowed(false);
         
         if (x < (getMAP_WIDTH() - 1)) {
           getRoom((x + 1), y).setIsWallowed(false);
@@ -187,7 +201,7 @@ public class Map extends RenderAbstract {
         } // end of if
         break;
       case "door_bottom": 
-        getRoom(x, y).setIsWallowed(false);
+        getRoom(x, y).setIsSallowed(false);
         
         if (y < (getMAP_HEIGHT() - 1)) {
           getRoom(x, (y + 1)).setIsNallowed(false);
@@ -222,12 +236,11 @@ public class Map extends RenderAbstract {
 
 
 
-  public void levelCompleted() {
-    currentLevel++;
-    createRooms();
+  public int getMonsterCount() {
+    return monsters.length;
   }
-  
-  
+
+
   
   public boolean isGoNorthPossible(int x, int y) {
     if ((rooms[x][y].isNallowed() == true) && (y > 0)) {
@@ -331,6 +344,36 @@ public class Map extends RenderAbstract {
               g.drawImage(assets.getTexture("water_0"), (x * TILE_WIDTH_AND_HEIGHT), (y * TILE_WIDTH_AND_HEIGHT), TILE_WIDTH_AND_HEIGHT, TILE_WIDTH_AND_HEIGHT, null);
             } else {
               g.drawImage(assets.getTexture("water_1"), (x * TILE_WIDTH_AND_HEIGHT), (y * TILE_WIDTH_AND_HEIGHT), TILE_WIDTH_AND_HEIGHT, TILE_WIDTH_AND_HEIGHT, null);
+            } // end of if-else
+              
+            if (waterCount == 239) {
+              waterCount = 0;
+            }
+          } else if (rooms[x][y].getRoomImageName().equals("water_edge_bottom")) {
+            if (waterCount <= 119) {
+              g.drawImage(assets.getTexture("water_0_edge_bottom"), (x * TILE_WIDTH_AND_HEIGHT), (y * TILE_WIDTH_AND_HEIGHT), TILE_WIDTH_AND_HEIGHT, TILE_WIDTH_AND_HEIGHT, null);
+            } else {
+              g.drawImage(assets.getTexture("water_1_edge_bottom"), (x * TILE_WIDTH_AND_HEIGHT), (y * TILE_WIDTH_AND_HEIGHT), TILE_WIDTH_AND_HEIGHT, TILE_WIDTH_AND_HEIGHT, null);
+            } // end of if-else
+              
+            if (waterCount == 239) {
+              waterCount = 0;
+            }
+          } else if (rooms[x][y].getRoomImageName().equals("water_edge_right")) {
+            if (waterCount <= 119) {
+              g.drawImage(assets.getTexture("water_0_edge_right"), (x * TILE_WIDTH_AND_HEIGHT), (y * TILE_WIDTH_AND_HEIGHT), TILE_WIDTH_AND_HEIGHT, TILE_WIDTH_AND_HEIGHT, null);
+            } else {
+              g.drawImage(assets.getTexture("water_1_edge_right"), (x * TILE_WIDTH_AND_HEIGHT), (y * TILE_WIDTH_AND_HEIGHT), TILE_WIDTH_AND_HEIGHT, TILE_WIDTH_AND_HEIGHT, null);
+            } // end of if-else
+              
+            if (waterCount == 239) {
+              waterCount = 0;
+            }
+          } else if (rooms[x][y].getRoomImageName().equals("water_edge_bottom_right")) {
+            if (waterCount <= 119) {
+              g.drawImage(assets.getTexture("water_0_edge_bottom_right"), (x * TILE_WIDTH_AND_HEIGHT), (y * TILE_WIDTH_AND_HEIGHT), TILE_WIDTH_AND_HEIGHT, TILE_WIDTH_AND_HEIGHT, null);
+            } else {
+              g.drawImage(assets.getTexture("water_1_edge_bottom_right"), (x * TILE_WIDTH_AND_HEIGHT), (y * TILE_WIDTH_AND_HEIGHT), TILE_WIDTH_AND_HEIGHT, TILE_WIDTH_AND_HEIGHT, null);
             } // end of if-else
               
             if (waterCount == 239) {

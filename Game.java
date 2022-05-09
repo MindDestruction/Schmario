@@ -1,11 +1,5 @@
-/**
-  *
-  * Beschreibung
-  *
-  * @version 1.0 vom 05.11.2021
-  * @author 
-  */
 import java.awt.Graphics;
+import java.awt.TextField;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
 
@@ -63,7 +57,7 @@ public class Game implements Runnable {
     map = new Map();
     map.createRooms();
     
-    player = new Player(this.game, this.map, this.inventory, map.getStartX() * map.getTILE_WIDTH_AND_HEIGHT(), map.getStartY() * map.getTILE_WIDTH_AND_HEIGHT());
+    player = new Player(this.game, this.map, this.inventory, map.getStartX(), map.getStartY());
   }
   
   private void tick(){
