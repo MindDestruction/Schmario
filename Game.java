@@ -57,7 +57,7 @@ public class Game implements Runnable {
     map = new Map();
     map.createRooms();
     
-    player = new Player(this.game, this.map, this.inventory, map.getStartX() * map.getTILE_WIDTH_AND_HEIGHT(), map.getStartY() * map.getTILE_WIDTH_AND_HEIGHT());
+    player = new Player(this.game, this.map, this.inventory, map.getStartX(), map.getStartY());
   }
   
   private void tick(){

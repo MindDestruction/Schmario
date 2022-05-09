@@ -35,7 +35,7 @@ public class Player extends Character {
     this.map = map;
     this.inventory = inventory;
 
-    interaction = new Interaction(map, inventory);
+    interaction = new Interaction(map, inventory, this);
   }
   
   
@@ -66,6 +66,13 @@ public class Player extends Character {
     } catch(Exception e) {
       e.printStackTrace();
     } 
+  }
+
+
+
+  public void nextLevel() {
+    curXPos = map.getStartX();
+    curYPos = map.getStartY();
   }
   
   

@@ -4,13 +4,15 @@ public class Interaction {
 
     Map map;
     Inventory inventory;
+    Player player;
     Assets assets = new Assets();
 
 
 
-    public Interaction(Map map, Inventory inventory) {
+    public Interaction(Map map, Inventory inventory, Player player) {
         this.map = map;
         this.inventory = inventory;
+        this.player = player;
     }
 
     public void interact(String viewDirection, int x, int y) {
@@ -23,9 +25,10 @@ public class Interaction {
             if (map.getRoom(x, y - 1).getRoomOverlayImage() != null) {
                 if (map.getRoom(x, y - 1).getRoomOverlayImage().equals("chest")) {
                     map.getRoom(x, y - 1).setRoomOverlayImage("opened_chest");
-                } else if (map.getRoom(x, y - 1).getRoomOverlayImage().equals("key")) {
+                } else if (map.getRoom(x, y - 1).getRoomOverlayImage().equals("safe")) {
                     if ((inventory.searchItem("a3")) && (inventory.searchItem("b7")) && (inventory.searchItem("c5")) && (inventory.searchItem("d4")) && (!safeInteractionLocked)) {
                         inventory.addItem(new Item("key", "key", false));
+                        map.getRoom(x, y - 1).setRoomOverlayImage("opened_safe");
                         safeInteractionLocked = true;
                     }
                 }
@@ -35,15 +38,19 @@ public class Interaction {
                 if (map.getRoom(x, y - 1).getWallTextureName().equals("door_top") && inventory.searchItem("key")) {
                     map.getRoom(x, y - 1).setWallTextureName("door_opened_top");
                     map.nextLevel();
+                    player.nextLevel();
                 } else if (map.getRoom(x, y - 1).getWallTextureName().equals("door_bottom") && inventory.searchItem("key")) {
                     map.getRoom(x, y - 1).setWallTextureName("door_opened_bottom");
                     map.nextLevel();
+                    player.nextLevel();
                 } else if (map.getRoom(x, y - 1).getWallTextureName().equals("door_right") && inventory.searchItem("key")) {
                     map.getRoom(x, y - 1).setWallTextureName("door_opened_right");
                     map.nextLevel();
+                    player.nextLevel();
                 } else if (map.getRoom(x, y - 1).getWallTextureName().equals("door_right") && inventory.searchItem("key")) {
                     map.getRoom(x, y - 1).setWallTextureName("door_opened__right");
                     map.nextLevel();
+                    player.nextLevel();
                 }
             }
         } else if ((viewDirection.equals("east")) && (x != (map.getMAP_WIDTH() - 1))) {
@@ -55,9 +62,10 @@ public class Interaction {
             if (map.getRoom(x + 1, y).getRoomOverlayImage() != null) {
                 if (map.getRoom(x + 1, y).getRoomOverlayImage().equals("chest")) {
                     map.getRoom(x + 1, y).setRoomOverlayImage("opened_chest");
-                } else if (map.getRoom(x + 1, y).getRoomOverlayImage().equals("key")) {
+                } else if (map.getRoom(x + 1, y).getRoomOverlayImage().equals("safe")) {
                     if ((inventory.searchItem("a3")) && (inventory.searchItem("b7")) && (inventory.searchItem("c5")) && (inventory.searchItem("d4")) && (!safeInteractionLocked)) {
                         inventory.addItem(new Item("key", "key", false));
+                        map.getRoom(x + 1, y).setRoomOverlayImage("opened_safe");
                         safeInteractionLocked = true;
                     }
                 }
@@ -67,15 +75,19 @@ public class Interaction {
                 if (map.getRoom(x + 1, y).getWallTextureName().equals("door_top") && inventory.searchItem("key")) {
                     map.getRoom(x + 1, y).setWallTextureName("door_opened_top");
                     map.nextLevel();
+                    player.nextLevel();
                 } else if (map.getRoom(x + 1, y).getWallTextureName().equals("door_bottom") && inventory.searchItem("key")) {
                     map.getRoom(x + 1, y).setWallTextureName("door_opened_bottom");
                     map.nextLevel();
+                    player.nextLevel();
                 } else if (map.getRoom(x + 1, y).getWallTextureName().equals("door_right") && inventory.searchItem("key")) {
                     map.getRoom(x + 1, y).setWallTextureName("door_opened_right");
                     map.nextLevel();
+                    player.nextLevel();
                 } else if (map.getRoom(x + 1, y).getWallTextureName().equals("door_right") && inventory.searchItem("key")) {
                     map.getRoom(x + 1, y).setWallTextureName("door_opened__right");
                     map.nextLevel();
+                    player.nextLevel();
                 }
             }
         } else if ((viewDirection.equals("south")) && (y != (map.getMAP_HEIGHT() - 1))) {
@@ -87,9 +99,10 @@ public class Interaction {
             if (map.getRoom(x, y + 1).getRoomOverlayImage() != null) {
                 if (map.getRoom(x, y + 1).getRoomOverlayImage().equals("chest")) {
                     map.getRoom(x, y + 1).setRoomOverlayImage("opened_chest");
-                } else if (map.getRoom(x, y + 1).getRoomOverlayImage().equals("key")) {
+                } else if (map.getRoom(x, y + 1).getRoomOverlayImage().equals("safe")) {
                     if ((inventory.searchItem("a3")) && (inventory.searchItem("b7")) && (inventory.searchItem("c5")) && (inventory.searchItem("d4")) && (!safeInteractionLocked)) {
                         inventory.addItem(new Item("key", "key", false));
+                        map.getRoom(x, y + 1).setRoomOverlayImage("opened_safe");
                         safeInteractionLocked = true;
                     }
                 }
@@ -99,15 +112,19 @@ public class Interaction {
                 if (map.getRoom(x, y + 1).getWallTextureName().equals("door_top") && inventory.searchItem("key")) {
                     map.getRoom(x, y + 1).setWallTextureName("door_opened_top");
                     map.nextLevel();
+                    player.nextLevel();
                 } else if (map.getRoom(x, y + 1).getWallTextureName().equals("door_bottom") && inventory.searchItem("key")) {
                     map.getRoom(x, y + 1).setWallTextureName("door_opened_bottom");
                     map.nextLevel();
+                    player.nextLevel();
                 } else if (map.getRoom(x, y + 1).getWallTextureName().equals("door_right") && inventory.searchItem("key")) {
                     map.getRoom(x, y + 1).setWallTextureName("door_opened_right");
                     map.nextLevel();
+                    player.nextLevel();
                 } else if (map.getRoom(x, y + 1).getWallTextureName().equals("door_right") && inventory.searchItem("key")) {
                     map.getRoom(x, y + 1).setWallTextureName("door_opened__right");
                     map.nextLevel();
+                    player.nextLevel();
                 }
             }
         } else if ((viewDirection.equals("west")) && (x != 0)) {
@@ -119,9 +136,10 @@ public class Interaction {
             if (map.getRoom(x - 1, y).getRoomOverlayImage() != null) {
                 if (map.getRoom(x - 1, y).getRoomOverlayImage().equals("chest")) {
                     map.getRoom(x - 1, y).setRoomOverlayImage("opened_chest");
-                } else if (map.getRoom(x - 1, y).getRoomOverlayImage().equals("key")) {
+                } else if (map.getRoom(x - 1, y).getRoomOverlayImage().equals("safe")) {
                     if ((inventory.searchItem("a3")) && (inventory.searchItem("b7")) && (inventory.searchItem("c5")) && (inventory.searchItem("d4")) && (!safeInteractionLocked)) {
                         inventory.addItem(new Item("key", "key", false));
+                        map.getRoom(x - 1, y).setRoomOverlayImage("opened_safe");
                         safeInteractionLocked = true;
                     }
                 }
@@ -131,15 +149,19 @@ public class Interaction {
                 if (map.getRoom(x - 1, y).getWallTextureName().equals("door_top") && inventory.searchItem("key")) {
                     map.getRoom(x - 1, y).setWallTextureName("door_opened_top");
                     map.nextLevel();
+                    player.nextLevel();
                 } else if (map.getRoom(x - 1, y).getWallTextureName().equals("door_bottom") && inventory.searchItem("key")) {
                     map.getRoom(x - 1, y).setWallTextureName("door_opened_bottom");
                     map.nextLevel();
+                    player.nextLevel();
                 } else if (map.getRoom(x - 1, y).getWallTextureName().equals("door_right") && inventory.searchItem("key")) {
                     map.getRoom(x - 1, y).setWallTextureName("door_opened_right");
                     map.nextLevel();
+                    player.nextLevel();
                 } else if (map.getRoom(x - 1, y).getWallTextureName().equals("door_right") && inventory.searchItem("key")) {
                     map.getRoom(x - 1, y).setWallTextureName("door_opened__right");
                     map.nextLevel();
+                    player.nextLevel();
                 }
             }
         }
@@ -155,6 +177,7 @@ public class Interaction {
             } else if (map.getRoom(x, y).getRoomOverlayImage().equals("key")) {
                 if ((inventory.searchItem("a3")) && (inventory.searchItem("b7")) && (inventory.searchItem("c5")) && (inventory.searchItem("d4")) && (!safeInteractionLocked)) {
                     inventory.addItem(new Item("key", "key", false));
+                    map.getRoom(x, y).setRoomOverlayImage("opened_safe");
                     safeInteractionLocked = true;
                 }
             }

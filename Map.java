@@ -14,7 +14,7 @@ public class Map extends RenderAbstract {
   private Monster[] monsters = new Monster[5];
   private Assets assets = new Assets();
 
-  private int[][] startCoordinates = {{8, 8}, {3, 10}, {4, 16}};
+  private int[][] startCoordinates = {{240, 240}, {90, 300}, {120, 480}};
   
   private int waterCount = 0;
 
