@@ -1,5 +1,6 @@
 public class Interaction {
     String interactionType;
+    boolean safeInteractionLocked = false;
 
     Map map;
     Inventory inventory;
@@ -23,8 +24,9 @@ public class Interaction {
                 if (map.getRoom(x, y - 1).getRoomOverlayImage().equals("chest")) {
                     map.getRoom(x, y - 1).setRoomOverlayImage("opened_chest");
                 } else if (map.getRoom(x, y - 1).getRoomOverlayImage().equals("key")) {
-                    if (InputClass.readInput("Safe Code:").equals("3754")) {
+                    if ((inventory.searchItem("a3")) && (inventory.searchItem("b7")) && (inventory.searchItem("c5")) && (inventory.searchItem("d4")) && (!safeInteractionLocked)) {
                         inventory.addItem(new Item("key", "key", false));
+                        safeInteractionLocked = true;
                     }
                 }
             }
@@ -54,8 +56,9 @@ public class Interaction {
                 if (map.getRoom(x + 1, y).getRoomOverlayImage().equals("chest")) {
                     map.getRoom(x + 1, y).setRoomOverlayImage("opened_chest");
                 } else if (map.getRoom(x + 1, y).getRoomOverlayImage().equals("key")) {
-                    if (InputClass.readInput("Safe Code:").equals("3754")) {
+                    if ((inventory.searchItem("a3")) && (inventory.searchItem("b7")) && (inventory.searchItem("c5")) && (inventory.searchItem("d4")) && (!safeInteractionLocked)) {
                         inventory.addItem(new Item("key", "key", false));
+                        safeInteractionLocked = true;
                     }
                 }
             }
@@ -85,8 +88,9 @@ public class Interaction {
                 if (map.getRoom(x, y + 1).getRoomOverlayImage().equals("chest")) {
                     map.getRoom(x, y + 1).setRoomOverlayImage("opened_chest");
                 } else if (map.getRoom(x, y + 1).getRoomOverlayImage().equals("key")) {
-                    if (InputClass.readInput("Safe Code:").equals("3754")) {
+                    if ((inventory.searchItem("a3")) && (inventory.searchItem("b7")) && (inventory.searchItem("c5")) && (inventory.searchItem("d4")) && (!safeInteractionLocked)) {
                         inventory.addItem(new Item("key", "key", false));
+                        safeInteractionLocked = true;
                     }
                 }
             }
@@ -116,8 +120,9 @@ public class Interaction {
                 if (map.getRoom(x - 1, y).getRoomOverlayImage().equals("chest")) {
                     map.getRoom(x - 1, y).setRoomOverlayImage("opened_chest");
                 } else if (map.getRoom(x - 1, y).getRoomOverlayImage().equals("key")) {
-                    if (InputClass.readInput("Safe Code:").equals("3754")) {
+                    if ((inventory.searchItem("a3")) && (inventory.searchItem("b7")) && (inventory.searchItem("c5")) && (inventory.searchItem("d4")) && (!safeInteractionLocked)) {
                         inventory.addItem(new Item("key", "key", false));
+                        safeInteractionLocked = true;
                     }
                 }
             }
@@ -137,19 +142,38 @@ public class Interaction {
                     map.nextLevel();
                 }
             }
-        } else {
-            if (map.getRoom(x, y).getItem() != null) {
-                inventory.addItem(map.getRoom(x, y).getItem());
-                map.getRoom(x, y).deleteItem();
-            }
+        }
 
-            if (map.getRoom(x, y).getRoomOverlayImage() != null) {
-                if (map.getRoom(x, y).getRoomOverlayImage().equals("chest") && inventory.searchItem("key")) {
-                    map.getRoom(x, y).setRoomOverlayImage("opened_chest");
-                } else if (map.getRoom(x, y).getRoomOverlayImage().equals("key")) {
-                    if (InputClass.readInput("Safe Code:").equals("3754")) {
-                        inventory.addItem(new Item("key", "key", false));
-                    }
+        if (map.getRoom(x, y).getItem() != null) {
+            inventory.addItem(map.getRoom(x, y).getItem());
+            map.getRoom(x, y).deleteItem();
+        }
+
+        if (map.getRoom(x, y).getRoomOverlayImage() != null) {
+            if (map.getRoom(x, y).getRoomOverlayImage().equals("chest") && inventory.searchItem("key")) {
+                map.getRoom(x, y).setRoomOverlayImage("opened_chest");
+            } else if (map.getRoom(x, y).getRoomOverlayImage().equals("key")) {
+                if ((inventory.searchItem("a3")) && (inventory.searchItem("b7")) && (inventory.searchItem("c5")) && (inventory.searchItem("d4")) && (!safeInteractionLocked)) {
+                    inventory.addItem(new Item("key", "key", false));
+                    safeInteractionLocked = true;
+                }
+            }
+        }
+    }
+
+    public void interactP2(int x, int y) {
+        if (map.getRoom(x, y).getItem() != null) {
+            inventory.addItem(map.getRoom(x, y).getItem());
+            map.getRoom(x, y).deleteItem();
+        }
+
+        if (map.getRoom(x, y).getRoomOverlayImage() != null) {
+            if (map.getRoom(x, y).getRoomOverlayImage().equals("chest") && inventory.searchItem("key")) {
+                map.getRoom(x, y).setRoomOverlayImage("opened_chest");
+            } else if (map.getRoom(x, y).getRoomOverlayImage().equals("key") && !safeInteractionLocked) {
+                if ((inventory.searchItem("a3")) && (inventory.searchItem("b7")) && (inventory.searchItem("c5")) && (inventory.searchItem("d4"))) {
+                    inventory.addItem(new Item("key", "key", false));
+                    safeInteractionLocked = true;
                 }
             }
         }

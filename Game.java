@@ -1,11 +1,5 @@
-/**
-  *
-  * Beschreibung
-  *
-  * @version 1.0 vom 05.11.2021
-  * @author 
-  */
 import java.awt.Graphics;
+import java.awt.TextField;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
 
