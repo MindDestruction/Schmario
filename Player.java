@@ -109,11 +109,13 @@ public class Player extends Character {
             if ((!map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + playerHeight - map.getYAdd() - 3) / map.getTILE_WIDTH_AND_HEIGHT()).getWallTextureName().equals("wall_bottom")) && (!map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + playerHeight - map.getYAdd() - 3) / map.getTILE_WIDTH_AND_HEIGHT()).getWallTextureName().equals("door_closed_bottom"))) {
               curYPos -= 3;
               isPlayerMoving = true;
+              Game.sendPlayerMovement();
               map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).setIsRoomReachable(false);
             }
           } else {
             curYPos -= 3;
             isPlayerMoving = true;
+            Game.sendPlayerMovement();
             map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).setIsRoomReachable(false);
           }
         } else {
@@ -133,11 +135,13 @@ public class Player extends Character {
             if ((!map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos - map.getYAdd() + 3) / map.getTILE_WIDTH_AND_HEIGHT()).getWallTextureName().equals("wall_bottom")) && (!map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos - map.getYAdd() + 3) / map.getTILE_WIDTH_AND_HEIGHT()).getWallTextureName().equals("door_closed_bottom"))) {
               curYPos += 3;
               isPlayerMoving = true;
+              Game.sendPlayerMovement();
               map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).setIsRoomReachable(false);
             }
           } else {
             curYPos += 3;
             isPlayerMoving = true;
+            Game.sendPlayerMovement();
             map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).setIsRoomReachable(false);
           }
         } else {
@@ -157,11 +161,13 @@ public class Player extends Character {
             if ((!map.getRoom((curXPos - map.getXAdd() - 3) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).getWallTextureName().equals("wall_bottom")) && (!map.getRoom((curXPos - map.getXAdd() - 3) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).getWallTextureName().equals("door_closed_bottom"))) {
               curXPos -= 3;
               isPlayerMoving = true;
+              Game.sendPlayerMovement();
               map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).setIsRoomReachable(false);
             }
           } else {
             curXPos -= 3;
             isPlayerMoving = true;
+            Game.sendPlayerMovement();
             map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).setIsRoomReachable(false);
           }
         } else {
@@ -174,18 +180,20 @@ public class Player extends Character {
     
     if (!isPlayerMoving && game.getKeyManager().right) {
       lastDirection = "east";
-    
+
       if ((game.getMap().getReachableXMin() <= (curXPos + 3)) && (map.getRoom((curXPos + playerWidth - map.getXAdd() + 3) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).isRoomReachable() == true)) {
         if ((map.getRoom((curXPos + playerWidth - map.getXAdd() + 3) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).isEallowed() == true) && (map.getRoom((curXPos + playerWidth - map.getXAdd() + 3) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT() + 1).isWallowed() == true)) {
           if (map.getRoom((curXPos + playerWidth - map.getXAdd() + 3) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).getWallTextureName() != null) {
             if ((!map.getRoom((curXPos + playerWidth - map.getXAdd() + 3) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).getWallTextureName().equals("wall_bottom")) && (!map.getRoom((curXPos + playerWidth - map.getXAdd() + 3) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).getWallTextureName().equals("door_closed_bottom"))) {
               curXPos += 3;
               isPlayerMoving = true;
+              Game.sendPlayerMovement();
               map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).setIsRoomReachable(false);
             }
           } else {
             curXPos += 3;
             isPlayerMoving = true;
+            Game.sendPlayerMovement();
             map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).setIsRoomReachable(false);
           }
         } else {
@@ -201,6 +209,8 @@ public class Player extends Character {
     if (!isPlayerMoving && game.getKeyManager().btne && !eLocked) {
       interaction.interact(lastDirection, currentRoomX, currentRoomY);
       isPlayerMoving = true;
+    } else {
+
     }
   }
   

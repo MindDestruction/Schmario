@@ -30,7 +30,7 @@ public class Interaction {
                     }
                 }
             }
-
+          
             if (map.getRoom(x, y - 1).getWallTextureName() != null) {
                 if (map.getRoom(x, y - 1).getWallTextureName().equals("door_top") && inventory.searchItem("key")) {
                     map.getRoom(x, y - 1).setWallTextureName("door_opened_top");
