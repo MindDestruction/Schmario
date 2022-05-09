@@ -155,7 +155,7 @@ public class Game implements Runnable {
   }
 
   public static void sendPlayerMovement() {
-    con.send("pos: "+player.getCurrentXPos()+", "+player.getCurrentXPos()+";");
+    con.send("pos: "+player.getCurrentXPos()+", "+player.getCurrentYPos()+";");
   }
 
 }

@@ -1,5 +1,7 @@
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Player extends Character {
   
@@ -11,6 +13,8 @@ public class Player extends Character {
   private int curYPosP2 = 300;
   private int playerWidth = 26;
   private int playerHeight = 30;
+  private int healthPoints = 30;
+  private int damage = 10;
   
   private Game game;
   private Map map;
@@ -19,6 +23,7 @@ public class Player extends Character {
   private Assets assets = new Assets();
 
   private boolean isPlayerMoving = false;
+  private boolean isInFight = false;
   
   private String lastDirection = "south";
   private String lastDirectionP2 = "south";
@@ -157,7 +162,9 @@ public class Player extends Character {
           //map.getRoom((curXPos + (playerWidth / 2) - map.getXAdd()) / map.getTILE_WIDTH_AND_HEIGHT(), (curYPos + (playerHeight / 2) - map.getYAdd()) / map.getTILE_WIDTH_AND_HEIGHT()).setIsRoomReachable(false);
         }
       }
-    }
+        
+      if (!isPlayerMoving && game.getKeyManager().left) {
+        lastDirection = "west";
       
     if (!isPlayerMoving && game.getKeyManager().left) {
       lastDirection = "west";
@@ -276,4 +283,71 @@ public class Player extends Character {
   public void goWest() {
     curXPos--;
   }
+
+  public void fight(int currentRoomX, int currentRoomY) {
+
+    // temporary
+    Monster testMonster = new Monster(300, 360, 100, 12, "goblin", assets);
+ 
+    switch (lastDirection) {
+      case "north": // if monster on tile next to player in direction north or one of the two next to it
+        if (map.getRoom(currentRoomX, currentRoomY-1) != null || map.getRoom(currentRoomX-1, currentRoomY-1) != null || map.getRoom(currentRoomX+1, currentRoomY-1) != null) {
+          //isInFight = true;
+          // player attack
+          Timer pTimer = new Timer();
+          TimerTask pAttackTask = new TimerTask() {
+              @Override
+              public void run() {
+                  monsterHit(testMonster);
+              }
+          };
+          pTimer.schedule(pAttackTask, 1000, 1000);
+
+          // monster attack
+          Timer mTimer = new Timer();
+          TimerTask mAttackTask = new TimerTask() {
+              @Override
+              public void run() {
+                  monsterHit(testMonster);
+              }
+          };
+          mTimer.schedule(mAttackTask, 1000, 1000);
+        }
+        break;
+      case "east": // if monster on tile next to player in direction east or one of the two next to it
+        if (map.getRoom(currentRoomX+1, currentRoomY) != null || map.getRoom(currentRoomX+1, currentRoomY+1) != null || map.getRoom(currentRoomX+1, currentRoomY-1) != null) {
+          // player attack
+        }
+        break;
+      case "south": // if monster on tile next to player in direction south or one of the two next to it
+        if (map.getRoom(currentRoomX, currentRoomY+1) != null || map.getRoom(currentRoomX-1, currentRoomY+1) != null || map.getRoom(currentRoomX+1, currentRoomY+1) != null) {
+        }
+        break;
+      case "west": // if monster on tile next to player in direction west or one of the two next to it
+        if (map.getRoom(currentRoomX-1, currentRoomY) != null || map.getRoom(currentRoomX-1, currentRoomY+1) != null || map.getRoom(currentRoomX-1, currentRoomY-1) != null) {
+          // player attack
+        }
+        break;
+    } // end of switch (lastDirection)
+  }
+
+  public void monsterHit(Monster monster) {
+    System.out.println(monster.getDamage());
+    healthPoints = healthPoints - monster.getDamage();
+    if (healthPoints <= 0) {
+      System.out.println(" -- PLAYER DEAD -- ");
+      isInFight = false;
+    }
+    System.out.println(healthPoints);
+  }
+
+  public void playerHit(Monster monster) {
+    System.out.println("playerHit");
+    monster.setHealth(monster.getHealth() - damage);
+    if (monster.getHealth() <= 0) {
+      System.out.println(" -- MONSTER DEAD -- ");
+      isInFight = false;
+    }
+  }
+
 } // end of class Player
